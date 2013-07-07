@@ -1,13 +1,13 @@
 var indexfile = fs.readFile("index.html");
-var indexbuf = new Buffer (indexfile, "utf-8");
+var indexbuf = new Buffer ("index.html", "utf-8");
 
 var express = require('express');
 
 var app = express.createServer(express.logger());
 
 app.get('/', function(request, response) {
-  response.send('Hello World 2!');
-    console.log(indexbuf);
+  //response.send('Hello World 2!');
+    response.send("fs.readFile " +  indexfile);
 });
 
 var port = process.env.PORT || 5000;
