@@ -39,13 +39,14 @@ var assertFileExists = function(infile) {
     return instr;
 };
 
-var assertrUrlExists = function (host) {
+var assertUrlExists = function (host) {
     rest.get(host).on('complete', function(result) {
         if (result instanceof Error) {
             sys.puts('URL ' + host + ' does not found');
+            process.exit(1);
         } else {
-	    fs.writeFile("webtest.html",result);
-	}
+            fs.writeFile("webtest.html",result);
+        }
     });
 };
 
@@ -78,7 +79,7 @@ if(require.main == module) {
     program
         .option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
         .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
-        .option('-u, --url <url>', 'Check Url', clone(assertrUrlExists), URLFILE_DEFAULT)
+        .option('-u, --url <url>', 'Check Url', clone(assertUrlExists), URLFILE_DEFAULT)
         .parse(process.argv);
     var checkJson = checkHtmlFile(program.file, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
